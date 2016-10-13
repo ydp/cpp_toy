@@ -1,0 +1,3 @@
+/Users/yuandingping/github/cpptoy/build/CMakeFiles/edit_cache.dir
+/Users/yuandingping/github/cpptoy/build/CMakeFiles/rebuild_cache.dir
+/Users/yuandingping/github/cpptoy/build/CMakeFiles/hello.dir
