@@ -1,8 +1,9 @@
 # cpptoy
 
-###### code implemented in C++ ######
+##### code implemented in C++ #####
 
-include
+This repo include following toy code:
 
-* topstl
-* 
+* toystl
+* cmake example project 
+
