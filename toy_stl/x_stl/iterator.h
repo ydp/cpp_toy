@@ -39,8 +39,8 @@ namespace X_STL
 		typedef output_iterator_tag iterator_category;
 		typedef void value_type;
 		typedef void difference_type;
-		typedef T* pointer;
-		typedef T& reference;
+		typedef void pointer;
+		typedef void reference;
 	};
 
 	template<class T, class Distance>
@@ -132,14 +132,14 @@ namespace X_STL
 	template<class Iterator>
 	inline typename iterator_traits<Iterator>::difference_type* differenct_type(const Iterator &it)
 	{
-		return static_case<typename iterator_traits<Iterator>::difference_type*>(0);
+		return static_cast<typename iterator_traits<Iterator>::difference_type*>(0);
 	}
 
 	/// 计算两个迭代器之间的距离
 	template<class InputIterator>
-	inline typename iterator_traits<InputIterator>::difference_type _distance(InputIterator first, InputIterator last, input_iterator tag)
+	inline typename iterator_traits<InputIterator>::difference_type _distance(InputIterator first, InputIterator last, input_iterator_tag)
 	{
-		iterator_traits<InputIterator>::difference_type = 0;
+		typename iterator_traits<InputIterator>::difference_type n = 0;
 		while (first != last)
 		{
 			++first, ++n;
@@ -148,7 +148,7 @@ namespace X_STL
 	}
 
 	template<class RandomAccessIterator>
-	inline typename iterator_traits<RandomAccessIterator>::difference_type _distance(RandomAccessIterator first, RandomAccessIterator last, random_access_iterator tag)
+	inline typename iterator_traits<RandomAccessIterator>::difference_type _distance(RandomAccessIterator first, RandomAccessIterator last, random_access_iterator_tag)
 	{
 		return last - first;
 	}
@@ -162,13 +162,13 @@ namespace X_STL
 
 	/// 使迭代器移动相应距离
 	template<class InputIterator, class Distance>
-	inline void _advance(InputIterator &i, Distance n, input_iterator tag)
+	inline void _advance(InputIterator &i, Distance n, input_iterator_tag)
 	{
 		while (n--) ++i;
 	}
 
 	template<class BidirectionalIterator, class Distance>
-	inline void _advance(BidirectionalIterator &i, Distance n, bidirectional_iterator tag)
+	inline void _advance(BidirectionalIterator &i, Distance n, bidirectional_iterator_tag)
 	{
 		if (n > 0)
 		{
@@ -180,7 +180,7 @@ namespace X_STL
 	}
 
 	template<class RandomAccessIterator, class Distance>
-	inline void _advance(RandomAccessIterator &i, Distance n, random_access_iterator tag)
+	inline void _advance(RandomAccessIterator &i, Distance n, random_access_iterator_tag)
 	{
 		i += n;
 	}

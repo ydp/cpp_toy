@@ -7,7 +7,7 @@ namespace X_STL
 	size_t alloc::heap_size = 0;
 	/// free_list是一个数组，数组的每个元素都是一个指向某个链接的指针
 	/// 每个元素对应的链接内存大小不一样，以8的倍数依次递增: 8, 16, 32...
-	alloc::obj *alloc::free_list[_NFREELIST] = {0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0};
+	alloc::obj *alloc::free_list[_NFREELISTS] = {0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0};
 
 	void *alloc::allocate(size_t n)
 	{
@@ -93,7 +93,7 @@ namespace X_STL
 	}
 
 	/// 这里才是真正从内存池分配内存的地方
-	void *alloc::chunk_alloc(size_t size, int &nobjs)
+	char *alloc::chunk_alloc(size_t size, int &nobjs)
 	{
 		char *result;
 		size_t total_bytes = size * nobjs;

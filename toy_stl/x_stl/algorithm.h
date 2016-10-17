@@ -49,25 +49,6 @@ namespace X_STL
 		return first;
 	}
 
-	/// 把一段元素拷贝到另一个位置
-	template<class InputIterator, class OutputIterator>
-	inline OutputIterator copy(InputIterator first, InputIterator last, OutputIterator dest)
-	{
-		return _copy_dispatch<InputIterator, OutputIterator>()(first, last, desc);
-	}
-
-	inline char* copy(const char *first, const char *last, char *dest)
-	{
-		memmove(dest, first, last - first);
-		return dest + (last - first);
-	}
-
-	inline wchar_t* copy(const wchar_t *first, const char *last, char *dest)
-	{
-		memmove(dest, first, sizeof(wchar_t*) * (last-first));
-		return dest + (last - first);
-	}
-
 	template<class InputIterator, class OutputIterator>
 	struct _copy_dispatch
 	{
@@ -97,8 +78,28 @@ namespace X_STL
 		}
 	};
 
+	/// 把一段元素拷贝到另一个位置
 	template<class InputIterator, class OutputIterator>
-	inline OutputIterator _copy(InputIterator first, InputIterator last, OutputIterator dest, input_iterator tag)
+	inline OutputIterator copy(InputIterator first, InputIterator last, OutputIterator dest)
+	{
+		return _copy_dispatch<InputIterator, OutputIterator>()(first, last, dest);
+	}
+
+	inline char* copy(const char *first, const char *last, char *dest)
+	{
+		memmove(dest, first, last - first);
+		return dest + (last - first);
+	}
+
+	inline wchar_t* copy(const wchar_t *first, const wchar_t *last, wchar_t *dest)
+	{
+		memmove(dest, first, sizeof(wchar_t*) * (last-first));
+		return dest + (last - first);
+	}
+
+
+	template<class InputIterator, class OutputIterator>
+	inline OutputIterator _copy(InputIterator first, InputIterator last, OutputIterator dest, input_iterator_tag)
 	{
 		for (; first != last; ++first)
 		{
@@ -108,9 +109,9 @@ namespace X_STL
 	}
 
 	template<class RandomAccessIterator, class OutputIterator>
-	inline OutputIterator _copy(RandomAccessIterator first, RandomAccessIterator last, OutputIterator dest, random_access_iterator tag)
+	inline OutputIterator _copy(RandomAccessIterator first, RandomAccessIterator last, OutputIterator dest, random_access_iterator_tag)
 	{
-		return _copy_d(first, last, dest, difference_type(first))
+		return _copy_d(first, last, dest, difference_type(first));
 	}
 
 	template<class RandomAccessIterator, class OutputIterator, class Distance>
@@ -139,7 +140,8 @@ namespace X_STL
 	template<class BidirectionalIterator, class Distance>
 	inline BidirectionalIterator _copy_backward(BidirectionalIterator first,
 												BidirectionalIterator last,
-												bidirectional_iterator tag,
+												BidirectionalIterator dest,
+												bidirectional_iterator_tag,
 												Distance*)
 	{
 		while (first != last)
@@ -153,7 +155,7 @@ namespace X_STL
 	inline BidirectionalIterator _copy_backward(RandomAccessIterator first,
 												RandomAccessIterator last,
 												BidirectionalIterator dest,
-												random_access_iterator tag,
+												random_access_iterator_tag,
 												Distance*)
 	{
 		for (Distance n = last - first; n > 0; --n)
@@ -217,7 +219,7 @@ namespace X_STL
 		return first1 == last1 && first2 != last2;
 	}
 
-	template<InputIterator1, class InputIterator2, class Compare>
+	template<class InputIterator1, class InputIterator2, class Compare>
 	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, Compare cmp)
 	{
 		while (first1 != last1 && first2 != last2)
@@ -273,7 +275,7 @@ namespace X_STL
 	}
 
 	template<class ForwardIterator, class T, class Distance>
-	inline ForwardIterator _lower_bound(ForwardItertor first,
+	inline ForwardIterator _lower_bound(ForwardIterator first,
 										ForwardIterator last,
 										const T &value,
 										Distance*,

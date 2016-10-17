@@ -2,7 +2,7 @@
 #define _X_STL_CONSTRUCT_H
 
 #include <new>
-#include <typetraits.h>
+#include "typetraits.h"
 
 namespace X_STL
 {
@@ -19,19 +19,19 @@ namespace X_STL
 		p->~T();
 	}
 
-	template<class ForwardIterator>
-	inline void destroy(ForwardIterator first, ForwardIterator last)
-	{
-		_destroy(first, last, value_type(first));
-	}
-
 	template<class ForwardIterator, class T>
 	inline void _destroy(ForwardIterator first, ForwardIterator last, T*)
 	{
 		typedef typename _type_traits<T>::has_trivial_destructor trivial_destructor;
 		_destroy_aux(first, last, trivial_destructor());
 	}
-	
+
+	template<class ForwardIterator>
+	inline void destroy(ForwardIterator first, ForwardIterator last)
+	{
+		_destroy(first, last, value_type(first));
+	}
+
 	template<class ForwardIterator>
 	inline void _destroy_aux(ForwardIterator first, ForwardIterator last, _false_type)
 	{
@@ -42,7 +42,7 @@ namespace X_STL
 	}
 
 	template<class ForwardIterator>
-	inline void _destroy_aux(ForwardIterator first, ForwardIterator last, _ture_type)
+	inline void _destroy_aux(ForwardIterator first, ForwardIterator last, _true_type)
 	{
 		/* do nothing  */
 	}

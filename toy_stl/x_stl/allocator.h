@@ -34,20 +34,20 @@ namespace X_STL
 	T *allocator<T>::allocate(size_t n)
 	{
 		if (n == 0) return 0;
-		return static_case<T*> (alloc::allocate(sizeof(T) * n));
+		return static_cast<T*> (alloc::allocate(sizeof(T) * n));
 	}
 
 	template<class T>
 	void allocator<T>::deallocate(T *p)
 	{
-		alloc::deallocate(static_cast<void *> (p), sizeof(T));
+        X_STL::alloc::deallocate(static_cast<void *> (p), sizeof(T));
 	}
 
 	template<class T>
 	void allocator<T>::deallocate(T *p, size_t n)
 	{
 		if (n == 0) return;
-		alloc::deallocate(static_cast<void *> (p), sizeof(T) * n);
+        X_STL::alloc::deallocate(static_cast<void *> (p), sizeof(T) * n);
 	}
 
 

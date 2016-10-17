@@ -8,9 +8,9 @@ namespace X_STL
 	class alloc
 	{
 		private:
-			const int _ALIGN = 8;
-			const int _MAX_BYTES = 128;
-			const int _NFREELISTS = _MAX_BYTES/_ALIGN;
+			static const int _ALIGN = 8;
+			static const int _MAX_BYTES = 128;
+			static const int _NFREELISTS = _MAX_BYTES/_ALIGN;
 			
 			/// free-list, 内存链表
 			union obj
@@ -50,7 +50,7 @@ namespace X_STL
 			/// 供allocater调用,真正实施内存申请的方法
 			static void *allocate(size_t n);
 			static void deallocate(void *p, size_t n);
-			static void *reallocate(void *p, size_t old_sz, size_t, new_sz);
+			static void *reallocate(void *p, size_t old_sz, size_t new_sz);
 	};
 
 }

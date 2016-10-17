@@ -10,16 +10,16 @@
 namespace X_STL
 {
 	template<class InputIterator, class ForwardIterator>
-	ForwardIterator _uninitialized_copy_aux(InputIterator first, InputIterator last, ForwardIterator last, _true_type)
+	ForwardIterator _uninitialized_copy_aux(InputIterator first, InputIterator last, ForwardIterator dest, _true_type)
 	{
 		return copy(first, last, dest);
 	}
 
 	template<class InputIterator, class ForwardIterator>
-	ForwardIterator _uninitialized_copy_aux(InputIterator first, InputIterator last, ForwardIterator last, _false_type)
+	ForwardIterator _uninitialized_copy_aux(InputIterator first, InputIterator last, ForwardIterator dest, _false_type)
 	{
 		ForwardIterator cur = dest;
-		for (; first != last; ++first, ++cur);
+		for (; first != last; ++first, ++cur)
 		{
 			construct(&*cur, *first);
 		}
@@ -27,9 +27,9 @@ namespace X_STL
 	}
 
 	template<class InputIterator, class ForwardIterator>
-	ForwardIterator uninitialized_copy(InputIterator first, InputIteratir last, ForwardIterator dest)
+	ForwardIterator uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator dest)
 	{
-		typedef typename _type_traits<iterator_tratis<InputIterator>::value_type>::is_POD_type isPODType;
+		typedef typename _type_traits<typename iterator_traits<InputIterator>::value_type>::is_POD_type isPODType;
 		return _uninitialized_copy_aux(first, last, dest, isPODType());
 	}
 
@@ -88,8 +88,8 @@ namespace X_STL
 	template<class ForwardIterator, class Size, class T>
 	ForwardIterator uninitialized_fill_n(ForwardIterator first, Size n, const T &value)
 	{
-		typedef typename _type_traits<T>::is_POD_Type isPODType;
-		return _uninitialized_fill_n_axu(first, n, value, isPODType());
+		typedef typename _type_traits<T>::is_POD_type isPODType;
+		return _uninitialized_fill_n_aux(first, n, value, isPODType());
 	}
 
 

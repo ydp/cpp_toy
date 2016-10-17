@@ -22,7 +22,7 @@ namespace X_STL
             typedef const T& const_reference;
             typedef size_t size_type;
             typedef ptrdiff_t difference_type;
-            typedef alloc = dataallocator;
+            typedef alloc dataallocator;
 
         protected:
             iterator start;
@@ -43,7 +43,7 @@ namespace X_STL
             {
                 iterator dest = dataallocator::allocate(n);
 
-                uninitialized_fill_n(dest, n, x);
+                X_STL::uninitialized_fill_n(dest, n, value);
                 return dest;
             }
 
@@ -56,7 +56,7 @@ namespace X_STL
             }
 
             template<class InputIterator>
-            void allocate_and_copy(size_type n, InputIterator frist, InputIterator last)
+            void allocate_and_copy(size_type n, InputIterator first, InputIterator last)
             {
                 iterator result = dataallocator::allocate(n);
                 uninitialized_copy(first, last, result);
@@ -106,7 +106,7 @@ namespace X_STL
 
             void shrink_to_fit()
             {
-                iterator new_start = dataallocater::allocate(size());
+                iterator new_start = dataallocator::allocate(size());
                 finish = uninitialized_copy(start, finish, new_start);
                 deallocate();
                 start = new_start;
@@ -118,7 +118,7 @@ namespace X_STL
             void swap(vector &v);
 
             reference operator[](const difference_type n) { return *(begin() + n); }
-            const reference operator[](const difference_type n) const { return *(cbegin() + n); }
+            const_reference operator[](const difference_type n) const { return *(cbegin() + n); }
             reference front() { return *begin(); }
             reference back() { return *(end() - 1); }
             pointer data() { return start;}
@@ -194,7 +194,7 @@ namespace X_STL
 
             iterator erase(iterator position)
             {
-                if (pisition != end())
+                if (position != end())
                 {
                     copy(position + 1, finish, position);
                 }
@@ -266,7 +266,7 @@ namespace X_STL
     }
 
     template<class T, class alloc>
-    vector<T, alloc>& vector<T, alloc>::operator=(vector<T, alloc> &rhs)
+    vector<T, alloc>& vector<T, alloc>::operator=(vector<T, alloc> &&rhs)
     {
         if (this != &rhs)
         {
@@ -292,37 +292,37 @@ namespace X_STL
     }
 
     template<class T, class alloc>
-    inline bool operator==(const vector<T, alloc> &v1, const <vector, alloc> &v2)
+    inline bool operator==(const vector<T, alloc> &v1, const vector<T, alloc> &v2)
     {
         return v1.size() == v2.size() && equal(v1.begin(), v2.end(), v2.begin());
     }
 
     template<class T, class alloc>
-    inline bool operator!=(const vector<T, alloc> &v1, const <vector, alloc> &v2)
+    inline bool operator!=(const vector<T, alloc> &v1, const vector<T, alloc> &v2)
     {
         return !(v1 == v2);
     }
 
     template<class T, class alloc>
-    inline bool operator<(const vector<T, alloc> &v1, const <vector, alloc> &v2)
+    inline bool operator<(const vector<T, alloc> &v1, const vector<T, alloc> &v2)
     {
         return lexicographical_compare(v1.begin(), v1.end(), v2.begin(), v2.end());
     }
 
     template<class T, class alloc>
-    inline bool operator>(const vector<T, alloc> &v1, const <vector, alloc> &v2)
+    inline bool operator>(const vector<T, alloc> &v1, const vector<T, alloc> &v2)
     {
         return v2 < v1;
     }
 
     template<class T, class alloc>
-    inline bool operator<=(const vector<T, alloc> &v1, const <vector, alloc> &v2)
+    inline bool operator<=(const vector<T, alloc> &v1, const vector<T, alloc> &v2)
     {
         return !(v1 > v2);
     }
 
     template<class T, class alloc>
-    inline bool operator>=(const vector<T, alloc> &v1, const <vector, alloc> &v2)
+    inline bool operator>=(const vector<T, alloc> &v1, const vector<T, alloc> &v2)
     {
         return !(v1 < v2);
     }
@@ -392,7 +392,7 @@ namespace X_STL
             iterator new_start = dataallocator::allocate(new_size);
             iterator new_finish = new_start;
             new_finish = uninitialized_copy(start, position, new_start);
-            construct(new_finish, x);
+            construct(new_finish, value);
             ++new_finish;
             new_finish = uninitialized_copy(position, finish, new_finish);
 
