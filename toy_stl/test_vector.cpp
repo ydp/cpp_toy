@@ -15,7 +15,7 @@ void test1()
     X_STL::vector<std::string> v2(10, "ttt");
     assert(X_STL::Test::container_equal(v1, v2));
     X_STL::Test::print_container(v1, "std");
-    X_STL::Test::print_container(v1, "x_std");
+    X_STL::Test::print_container(v1, "xtd");
 }
 
 

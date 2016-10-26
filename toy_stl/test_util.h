@@ -12,7 +12,7 @@ namespace X_STL
         template<class Container>
         void print_container(Container &container, const std::string &name = "")
         {
-            std::cout << "Container " << name << " :";
+            std::cout << "Container " << name << " : ";
             for (auto v : container)
             {
                 std::cout << v << " ";
